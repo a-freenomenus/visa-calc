@@ -1,27 +1,34 @@
 App.Router.map(function() {
 
-  this.resource('visas', { path: '/' }, function () {
-    
-    // additional child routes    
+  this.route('about');
+
+  this.resource('visas', { path: '/visas' }, function () {
+
+    // additional child routes
+
+    this.resource('visa', { path: ':visa_id' });
+    this.resource('newVisa');
+
+
     // this.route('active');
     // this.route('completed');
   });
 
 });
 
-App.Router.map(function() {
-  // put your routes here
-  this.resource('about');
-  this.resource('visas', function() {
-    this.resource('visa', { path: ':visa_id' });
-  });
-  this.resource('newVisa');
-});
+// App.Router.map(function() {
+//   // put your routes here
+//   this.resource('about');
+//   this.resource('visas', function() {
+//     this.resource('visa', { path: ':visa_id' });
+//   });
+//   this.resource('newVisa');
+// });
 
 App.IndexRoute = Ember.Route.extend({
-  // model: function() {
-  //   return ['red', 'yellow', 'blue'];
-  // }
+  model: function() {
+    // return this.modelFor('visas');
+  }
 });
 
 App.VisasRoute = Ember.Route.extend({
@@ -33,6 +40,6 @@ App.VisasRoute = Ember.Route.extend({
 
 App.VisaRoute = Ember.Route.extend({
   model: function(params) {
-    // return visas.findBy('id', params.visa_id);
+    return this.store.find('visa', params.visa_id);
   }
 });

@@ -13,7 +13,7 @@
     <h2>Visa Calculator</h2>
     <div class="navbar">
       <div class="navbar-inner">
-        <a class="brand" href="#">Visa Calculator</a>
+        {{#link-to 'index' class="brand"}}Visa Calculator{{/link-to}}
         <ul class="nav">
           <li>{{#link-to 'visas'}}My Visas{{/link-to}}</li>
           <li>{{#link-to 'about'}}About{{/link-to}}</li>
@@ -22,6 +22,16 @@
     </div>
 
     {{outlet}}
+  </script>
+
+  <script type="text/x-handlebars" id="index">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <h3>Zdraste</h3>
+        <p>Hello, this is Visa Calculator Application</p>
+        <p>Start from {{#link-to 'newVisa'}}adding a new visa{{/link-to}} to your {{#link-to 'visas'}}list of visas{{/link-to}}</p>
+      </div>
+    </div>
   </script>
 
   <script type="text/x-handlebars" id="visas">
@@ -51,16 +61,26 @@
   </script>
 
   <script type="text/x-handlebars" id="visa">
+    <strong>Visa:</strong> {{name}}
+    <br>
+    <strong>Start Date:</strong> {{startDate}}
+    <br>
+    <strong>End Date:</strong> {{endDate}}
+    <br>
+    <strong>Type:</strong> {{type}}
+    <br>
+    <br>
+
     {{#if isEditing}}
       {{partial 'visa/edit'}}
       <button {{action 'doneEditing'}}>Done</button>
     {{else}}
       <button {{action 'edit'}}>Edit</button>
     {{/if}}
-    <br><br>
-    <strong>Visa:</strong> {{name}}
+
     <br><br>
     TODO: add entries
+
   </script>
 
   <script type="text/x-handlebars" id="newVisa">
@@ -77,13 +97,16 @@
     <p>{{input type="text" value=name placeholder="Name" }}</p>
     <p>{{input type="text" value=startDate placeholder="Start Date" }}</p>
     <p>{{input type="text" value=endDate placeholder="End Date" }}</p>
-    <p>{{input type="text" value=type placeholder="Type" }}</p>    
-  </script>  
+    <p>{{input type="text" value=type placeholder="Type" }}</p>
+  </script>
 
   <script type="text/x-handlebars" id="about">
-    <h3>About Page</h3>
-    <br><br>
-    TODO: add texts
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <h3>About Page</h3>
+        <p>TODO: add texts</p>
+      </div>
+    </div>
 
   </script>
 
