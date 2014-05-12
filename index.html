@@ -19,6 +19,7 @@
     <p> <h1> Visa Calculator </h1> </p>
   </div>
 
+  <!--Vendor Includes-->
   <script src="./assets/js/vendor/jquery.js"></script>
   <script src="./assets/js/vendor/json2.js"></script>
   <script src="./assets/js/vendor/underscore.js"></script>
@@ -29,9 +30,30 @@
   <script src="./assets/js/vendor/spin.js"></script>
   <script src="./assets/js/vendor/spin.jquery.js"></script>
 
+  <!--Templates-->
   <script type="text/template" id="">
   </script>
 
+  <script type="text/template" id="loading-view">
+    <h1> <%= title %> </h1>
+    <p> <%= message %> </p>
+    <div id="spinner"></div>
+  </script>
+
+
+
+  <!-- Main app -->
+  <script src="./assets/js/app.js"></script>
+  <script src="./assets/js/apps/config/storage/localstorage.js"></script>
+  <script src="./assets/js/common/views.js"></script>
+
+  <!-- Entities -->
+  <script src="./assets/js/entities/visa.js"></script>
+
+
+  <script type="text/javascript">
+    vc.start();
+  </script>
 
 
 </body>
