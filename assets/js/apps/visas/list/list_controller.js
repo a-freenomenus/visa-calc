@@ -10,10 +10,18 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
           collection: visas
         });
 
+        visasListView.on("itemview:visa:show", function(childView, model) {
+          vc.trigger("visa:show", model.get("id"));
+        });
+
+        visasListView.on("itemview:visa:delete", function(childView, model) {
+          visas.remove(model);
+          model.destroy();
+        });
+
+
         vc.mainRegion.show(visasListView);
       });
-
-
     }
   }
 

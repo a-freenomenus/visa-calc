@@ -28,7 +28,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   Entities.VisaCollection = Backbone.Collection.extend({
     url: "visas",
     model: Entities.Visa,
-    /* comparator: "firstName" */
+    comparator: "id"
   });
 
   Entities.configureStorage(Entities.VisaCollection);

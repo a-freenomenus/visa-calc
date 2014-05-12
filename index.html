@@ -81,6 +81,26 @@
   </script>
 
 
+  <script type="text/template" id="visa-view">
+    <h1><%= name %></h1>
+    <p> <strong> Start Date: </strong> <%= startDate %> </p>
+    <p> <strong> End Date: </strong> <%= endDate %> </p>
+
+    <a href="#visas/<%= id %>/edit" class="btn btn-small js-edit">
+      <i class="icon-pencil"></i>
+      Edit
+    </a>
+    <br>
+    <br>
+    <a href="#visas" class="js-list-visas">Back to My Visas</a>
+  </script>
+
+  <script type="text/template" id="missing-visa-view">
+    <div class="alert alert-error">
+      This visa does not exist
+    </div>
+    <a href="#visas" class="js-list-visas">Back to My Visas</a>
+  </script>
 
   <!-- Main app -->
   <script src="./assets/js/app.js"></script>
@@ -93,8 +113,12 @@
   <!--Applications-->
   <!--Visas App-->
   <script src="./assets/js/apps/visas/visas_app.js"></script>
+  <!--List-->
   <script src="./assets/js/apps/visas/list/list_controller.js"></script>
   <script src="./assets/js/apps/visas/list/list_view.js"></script>
+  <!--Show-->
+  <script src="./assets/js/apps/visas/show/show_controller.js"></script>
+  <script src="./assets/js/apps/visas/show/show_view.js"></script>
 
 
 

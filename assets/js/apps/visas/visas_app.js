@@ -13,7 +13,7 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
     },
 
     showVisa: function(id) {
-
+      VisasApp.Show.Controller.showVisa(id);
     },
 
     editVisa: function(id) {
@@ -24,6 +24,11 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
   vc.on("visas:list", function() {
     vc.navigate("visas");
     API.listVisas();
+  });
+
+  vc.on("visa:show", function(id) {
+    vc.navigate("visas/" + id);
+    API.showVisa(id);
   });
 
   vc.addInitializer(function() {
