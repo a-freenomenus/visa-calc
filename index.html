@@ -35,9 +35,49 @@
   </script>
 
   <script type="text/template" id="loading-view">
-    <h1> <%= title %> </h1>
-    <p> <%= message %> </p>
     <div id="spinner"></div>
+  </script>
+
+  <script type="text/template" id="visas-list-item">
+    <td>
+      <a href="#visas/<%= id %>" class="js-show">
+        <%= name %>
+      </a>
+    </td>
+    <td><%= startDate %></td>
+    <td><%= endDate %></td>
+    <td><%= type %></td>
+    <td>30</td>
+    <td>
+      <a href="#visas/<%= id %>" class="btn btn-small js-show">
+        <i class="icon-eye-open"></i>
+      </a>
+      <button class="btn btn-small js-delete">
+        <i class="icon-remove"></i>
+      </button>
+    </td>
+  </script>
+
+  <script type="text/template" id="visas-list">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Type</th>
+          <th>Days Left</th>
+          <th></th>
+        </tr>
+      </thead>
+    <tbody> </tbody>
+    </table>
+    <div>
+      <button class="btn btn-small js-delete-all">
+        <i class="icon-remove"></i>
+        Delete All Entries
+      </button>
+    </div>
   </script>
 
 
@@ -49,6 +89,13 @@
 
   <!-- Entities -->
   <script src="./assets/js/entities/visa.js"></script>
+
+  <!--Applications-->
+  <!--Visas App-->
+  <script src="./assets/js/apps/visas/visas_app.js"></script>
+  <script src="./assets/js/apps/visas/list/list_controller.js"></script>
+  <script src="./assets/js/apps/visas/list/list_view.js"></script>
+
 
 
   <script type="text/javascript">

@@ -4,14 +4,12 @@ vc.module("Common.Views", function(Views, vc, Backbone, Marionette, $, _){
 
     initialize: function(options) {
       var options = options || {};
-      this.title = options.title || "Loading Data";
-      this.message = options.message || "Please wait while data is loaded";
     },
 
     serializeData: function() {
       return {
-        title: this.title,
-        message: this.message
+        // title: this.title,
+        // message: this.message
       }
     },
 

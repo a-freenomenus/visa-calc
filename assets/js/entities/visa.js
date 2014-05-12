@@ -27,7 +27,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
   Entities.VisaCollection = Backbone.Collection.extend({
     url: "visas",
-    model: Entities.visa,
+    model: Entities.Visa,
     /* comparator: "firstName" */
   });
 
@@ -46,15 +46,15 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       {
         id: 2,
         name: 'Visa 2',
-        startDate: '10/10/10',
-        endDate: '10/10/11',
+        startDate: '10/10/11',
+        endDate: '10/10/12',
         type: 'M'
       },
       {
         id: 3,
         name: 'Visa 3',
-        startDate: '10/10/10',
-        endDate: '10/10/11',
+        startDate: '10/10/13',
+        endDate: '10/10/14',
         type: 'M'
       }
     ]);
@@ -63,7 +63,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       visa.save();
     });
 
-    return visa.models;
+    return visas.models;
   }
 
   var API = {
