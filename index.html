@@ -47,7 +47,7 @@
     <td><%= startDate %></td>
     <td><%= endDate %></td>
     <td><%= type %></td>
-    <td>30</td>
+    <td><%= daysLeft %></td>
     <td>
       <a href="#visas/<%= id %>" class="btn btn-small js-show">
         <i class="icon-eye-open"></i>
@@ -85,6 +85,7 @@
     <h1><%= name %></h1>
     <p> <strong> Start Date: </strong> <%= startDate %> </p>
     <p> <strong> End Date: </strong> <%= endDate %> </p>
+    <p> <strong> Days Left: </strong> <%= daysLeft %> </p>
 
     <a href="#visas/<%= id %>/edit" class="btn btn-small js-edit">
       <i class="icon-pencil"></i>
@@ -116,6 +117,7 @@
 
   <!-- Entities -->
   <script src="./assets/js/entities/visa.js"></script>
+  <script src="./assets/js/entities/visa_entry.js"></script>
 
   <!--Applications-->
   <!--Visas App-->

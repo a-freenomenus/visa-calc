@@ -13,6 +13,8 @@ vc.module("VisasApp.Show", function(Show, vc, Backbone, Marionette, $, _){
             model: visa
           });
 
+          vc.request("visaEntries:entities", visa.get("id"));
+
           visaView.on("visa:edit", function(visa) {
             vc.trigger("visa:edit", visa.get("id"));
           });

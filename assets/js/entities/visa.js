@@ -2,6 +2,12 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   Entities.Visa = Backbone.Model.extend({
     urlRoot: "visas",
 
+    initialize: function() {
+      this.countDaysLeft();
+      this.on('change:startDate', this.countDaysLeft, this);
+      this.on('change:endtDate', this.countDaysLeft, this);
+    },
+
     validate: function(attrs, options) {
       var errors = {};
 
@@ -20,6 +26,12 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       if ( ! _.isEmpty(errors)) {
         return errors;
       }
+    },
+
+    countDaysLeft: function() {
+      this.set({
+        daysLeft: 31
+      })
     }
   });
 
