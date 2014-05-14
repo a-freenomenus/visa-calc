@@ -31,7 +31,20 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
     className: "",
     template: "#visas-list",
     itemView: List.Visa,
-    itemViewContainer: "tbody"
+    itemViewContainer: "tbody",
+
+    events: {
+      "click .js-delete-all": "deleteAll"
+    },
+
+    deleteAll: function(e) {
+      e.preventDefault();
+      this.trigger("visas:delete")
+    }
+  });
+
+  List.MissingVisas = Marionette.ItemView.extend({
+    template: "#missing-visas-view"
   });
 });
 
