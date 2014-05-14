@@ -1,5 +1,5 @@
 vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
-  Entities.VisaEntry = Backbone.Model.extend({
+  Entities.VisaEntry = Backbone.RelationalModel.extend({
     urlRoot: "visa-entries"
   });
 

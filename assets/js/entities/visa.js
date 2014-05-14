@@ -1,6 +1,16 @@
 vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
-  Entities.Visa = Backbone.Model.extend({
+  Entities.Visa = Backbone.RelationalModel.extend({
     urlRoot: "visas",
+
+    relations: [{
+      type: "HasMany",
+      key: "entries",
+      relatedModel: "vc.Entities.VisaEntry",
+      collectionType: "vc.Entities.VisaEntriesCollection",
+      reverseRelation: {
+        key: "visaId"
+      }
+    }],
 
     initialize: function() {
       this.countDaysLeft();
