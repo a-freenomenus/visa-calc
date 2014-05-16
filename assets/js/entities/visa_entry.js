@@ -1,5 +1,5 @@
 vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
-  Entities.VisaEntry = Backbone.RelationalModel.extend({
+  Entities.VisaEntry = Backbone.Model.extend({
     urlRoot: "visa-entries"
   });
 
@@ -15,7 +15,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
   /* Create stub collection and models */
   var initializeVisaEntries = function() {
-    var visaEntries = new Entries.VisaEntriesCollection([
+    var visaEntries = new Entities.VisaEntriesCollection([
       {
         id: 1,
         visa_id: 1,
@@ -91,6 +91,27 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   var API = {
     getVisaEntries: function(visaId) {
       console.log('getVisaEntries', visaId)
+      var visaEntries = new Entities.VisaEntriesCollection();
+      var defer = $.Deferred();
+
+      setTimeout(function() {
+        visaEntries.fetch({
+          success: function(data) {
+            defer.resolve(data);
+          }
+        });
+      }, 1000);
+
+      var promise = defer.promise();
+      $.when(promise).done(function(visaEntries) {
+        if (visaEntries.length === 0) {
+          var models = initializeVisaEntries();
+          visaEntries.reset(models);
+        }
+      });
+
+
+      return promise;
     },
 
     getVisaEntry: function(visaEntryId) {

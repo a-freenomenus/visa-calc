@@ -1,16 +1,6 @@
 vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
-  Entities.Visa = Backbone.RelationalModel.extend({
+  Entities.Visa = Backbone.Model.extend({
     urlRoot: "visas",
-
-    relations: [{
-      type: "HasMany",
-      key: "entries",
-      relatedModel: "vc.Entities.VisaEntry",
-      collectionType: "vc.Entities.VisaEntriesCollection",
-      reverseRelation: {
-        key: "visaId"
-      }
-    }],
 
     initialize: function() {
       this.countDaysLeft();
@@ -55,7 +45,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
   Entities.configureStorage(Entities.VisaCollection);
 
-
+  /* Create stub collection and models */
   var initializeVisas = function() {
     var visas = new Entities.VisaCollection([
       {
