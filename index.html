@@ -3,131 +3,168 @@
 <head>
   <meta charset="utf-8">
   <title>Visa Calculator</title>
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+  <link href="./assets/css/bootstrap.css" rel="stylesheet">
 </head>
 
 <body>
-  <script type="text/x-handlebars">
-    <h2>Visa Calculator</h2>
-    <div class="navbar">
-      <div class="navbar-inner">
-        {{#link-to 'index' class="brand"}}Visa Calculator{{/link-to}}
-        <ul class="nav">
-          <li>{{#link-to 'visas'}}My Visas{{/link-to}}</li>
-          <li>{{#link-to 'about'}}About{{/link-to}}</li>
-        </ul>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="brand">Visa Calculator</span>
       </div>
     </div>
+  </div>
 
-    {{outlet}}
+  <div id="main-region" class="container">
+    <p> <h1> Visa Calculator </h1> </p>
+  </div>
+
+  <!--Vendor Includes-->
+  <script src="./assets/js/vendor/jquery.js"></script>
+  <script src="./assets/js/vendor/json2.js"></script>
+  <script src="./assets/js/vendor/underscore.js"></script>
+  <script src="./assets/js/vendor/backbone.js"></script>
+  <script src="./assets/js/vendor/backbone.syphon.js"></script>
+  <!-- <script src="./assets/js/vendor/backbone-relational.js"></script> -->
+  <script src="./assets/js/vendor/backbone.localstorage.js"></script>
+  <script src="./assets/js/vendor/backbone.marionette.js"></script>
+  <script src="./assets/js/vendor/spin.js"></script>
+  <script src="./assets/js/vendor/spin.jquery.js"></script>
+
+  <!--Templates-->
+  <script type="text/template" id="">
   </script>
 
-  <script type="text/x-handlebars" id="index">
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <h3>Zdraste</h3>
-        <p>Hello, this is Visa Calculator Application</p>
-        <p>Start from {{#link-to 'newVisa'}}adding a new visa{{/link-to}} to your {{#link-to 'visas'}}list of visas{{/link-to}}</p>
-      </div>
+  <script type="text/template" id="loading-view">
+    <div id="spinner"></div>
+  </script>
+
+  <script type="text/template" id="visas-list-item">
+    <td>
+      <a href="#visas/<%= id %>" class="js-show">
+        <%= name %>
+      </a>
+    </td>
+    <td><%= startDate %></td>
+    <td><%= endDate %></td>
+    <td><%= type %></td>
+    <td><%= daysLeft %></td>
+    <td>
+      <a href="#visas/<%= id %>" class="btn btn-small js-show">
+        <i class="icon-eye-open"></i>
+      </a>
+      <button class="btn btn-small js-delete">
+        <i class="icon-remove"></i>
+      </button>
+    </td>
+  </script>
+
+  <script type="text/template" id="visas-list">
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Type</th>
+          <th>Days Left</th>
+          <th></th>
+        </tr>
+      </thead>
+    <tbody> </tbody>
+    </table>
+    <div>
+      <button class="btn btn-small js-delete-all">
+        <i class="icon-remove"></i>
+        Delete All Entries
+      </button>
     </div>
   </script>
 
-  <script type="text/x-handlebars" id="visas">
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <table class='table'>
-            <thead>
-              <tr><th>My Visas</th></tr>
-            </thead>
-            {{#each model}}
-            <tr><td>
-                {{#link-to 'visa' this}} {{name}} {{/link-to}}
-            </td></tr>
-            {{/each}}
-          </table>
-
-          {{#link-to 'newVisa'}} Add Visa {{/link-to}}
-        </div>
-
-        <div class="span9">
-          {{outlet}}
-        </div>
-
-      </div>
-    </div>
+  <script type="text/template" id="visa-entry-view">
+    <td>
+      <%= name %>
+    </td>
+    <td>
+      <%= startDate %>
+    </td>
+    <td>
+      <%= endDate %>
+    </td>
+    <td>
+      0
+    </td>
   </script>
 
-  <script type="text/x-handlebars" id="visa">
-    <strong>Visa:</strong> {{name}}
-    <br>
-    <strong>Start Date:</strong> {{startDate}}
-    <br>
-    <strong>End Date:</strong> {{endDate}}
-    <br>
-    <strong>Type:</strong> {{type}}
-    <br>
-    <br>
+  <script type="text/template" id="visa-view">
+    <h1><%= name %></h1>
+    <p> <strong> Start Date: </strong> <%= startDate %> </p>
+    <p> <strong> End Date: </strong> <%= endDate %> </p>
+    <p> <strong> Days Left: </strong> <%= daysLeft %> </p>
 
-    {{#if isEditing}}
-      {{partial 'visa/edit'}}
-      <button {{action 'doneEditing'}}>Done</button>
-    {{else}}
-      <button {{action 'edit'}}>Edit</button>
-    {{/if}}
-
-    <br><br>
-    TODO: add entries
-
-  </script>
-
-  <script type="text/x-handlebars" id="newVisa">
-    new visa
-    <p>{{input type="text" value=name}}</p>
-    <p>{{input type="text" value=startDate}}</p>
-    <p>{{input type="text" value=endDate}}</p>
-    <p>{{input type="text" value=type}}</p>
-
-    <button {{action 'create'}}>Save</button>
-  </script>
-
-  <script type="text/x-handlebars" id="visa/_edit">
-    <p>{{input type="text" value=name placeholder="Name" }}</p>
-    <p>{{input type="text" value=startDate placeholder="Start Date" }}</p>
-    <p>{{input type="text" value=endDate placeholder="End Date" }}</p>
-    <p>{{input type="text" value=type placeholder="Type" }}</p>
-  </script>
-
-  <script type="text/x-handlebars" id="about">
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <h3>About Page</h3>
-        <p>TODO: add texts</p>
-      </div>
+    <div id="visa-entries">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Days Total</th>
+          </tr>
+        </thead>
+      <tbody> </tbody>
+      </table>
     </div>
 
+    <a href="#visas/<%= id %>/edit" class="btn btn-small js-edit">
+      <i class="icon-pencil"></i>
+      Edit Visa
+    </a>
+    <br>
+    <br>
+    <a href="#visas" class="js-list-visas">Back to My Visas</a>
   </script>
 
 
-  <script src="js/libs/jquery-1.10.2.js"></script>
-  <script src="js/libs/handlebars-1.1.2.js"></script>
-  <script src="js/libs/ember-1.4.0.js"></script>
-  <script src="js/libs/ember-data.js"></script>
-  <script src="js/libs/localstorage_adapter.js"></script>
-  <!-- // <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js"></script> -->
+  <script type="text/template" id="missing-visa-view">
+    <div class="alert alert-error">
+      This visa does not exist
+    </div>
+    <a href="#visas" class="js-list-visas">Back to My Visas</a>
+  </script>
 
-  <script src="js/app.js"></script>
-  <script src="js/router.js"></script>
+  <script type="text/template" id="missing-visas-view">
+    <div class="alert alert-error">
+      You have no visas added
+    </div>
+    <a href="#visas/new" class="btn btn-primary js-new-visa">Create Visa</a>
+  </script>
 
-  <!-- Models -->
-  <script src="js/models/visa.js"></script>
+  <!-- Main app -->
+  <script src="./assets/js/app.js"></script>
+  <script src="./assets/js/apps/config/storage/localstorage.js"></script>
+  <script src="./assets/js/common/views.js"></script>
 
-  <!-- Controllers -->
-  <script src="js/controllers/visa_controller.js"></script>
+  <!-- Entities -->
+  <script src="./assets/js/entities/visa.js"></script>
+  <script src="./assets/js/entities/visa_entry.js"></script>
 
-  <!-- to activate the test runner, add the "?test" query string parameter -->
-  <!-- // <script src="tests/runner.js"></script> -->
+  <!--Applications-->
+  <!--Visas App-->
+  <script src="./assets/js/apps/visas/visas_app.js"></script>
+  <!--List-->
+  <script src="./assets/js/apps/visas/list/list_controller.js"></script>
+  <script src="./assets/js/apps/visas/list/list_view.js"></script>
+  <!--Show-->
+  <script src="./assets/js/apps/visas/show/show_controller.js"></script>
+  <script src="./assets/js/apps/visas/show/show_view.js"></script>
+
+
+
+  <script type="text/javascript">
+    vc.start();
+  </script>
+
+
 </body>
 </html>
