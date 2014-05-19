@@ -11,9 +11,17 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
     validate: function(attrs, options) {
       var errors = {};
 
-      // if (! attrs.firstName) {
-      //   errors.firstName = "can't be blank";
-      // }
+      if (! attrs.name) {
+        errors.name = "can't be blank";
+      }
+
+      if (! attrs.startDate) {
+        errors.startDate = "can't be blank";
+      }
+
+      if (! attrs.endDate) {
+        errors.endDate = "can't be blank";
+      }
 
       // if (! attrs.lastName) {
       //   errors.lastName = "can't be blank";

@@ -17,6 +17,7 @@ vc.module("VisasApp.Show", function(Show, vc, Backbone, Marionette, $, _){
 
     editClicked: function(e) {
       e.preventDefault();
+      this.trigger("visa:edit", this.model);
     }
   });
 
