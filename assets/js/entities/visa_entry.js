@@ -90,14 +90,13 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
   var API = {
     getVisaEntries: function(visaId) {
-      console.log('getVisaEntries', visaId)
       var visaEntries = new Entities.VisaEntriesCollection();
       var defer = $.Deferred();
 
       setTimeout(function() {
         visaEntries.fetch({
           success: function(data) {
-            defer.resolve(data);
+            defer.resolve(data)
           }
         });
       }, 1000);
@@ -108,6 +107,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
           var models = initializeVisaEntries();
           visaEntries.reset(models);
         }
+
       });
 
 

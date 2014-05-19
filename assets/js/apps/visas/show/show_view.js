@@ -1,6 +1,15 @@
 vc.module("VisasApp.Show", function(Show, vc, Backbone, Marionette, $, _){
-  Show.Visa = Marionette.ItemView.extend({
+  Show.VisaEntry = Marionette.ItemView.extend({
+    template: "#visa-entry-view",
+    tagName: "tr"
+  });
+
+  Show.Visa = Marionette.CompositeView.extend({
     template: "#visa-view",
+    tagName: "div",
+    className: "",
+    itemView: Show.VisaEntry,
+    itemViewContainer: "#visa-entries tbody",
 
     events: {
       "click .js-edit": "editClicked",

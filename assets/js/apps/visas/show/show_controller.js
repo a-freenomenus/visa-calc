@@ -9,20 +9,35 @@ vc.module("VisasApp.Show", function(Show, vc, Backbone, Marionette, $, _){
         var visaView;
 
         if (visa !== undefined) {
-          visaView = new Show.Visa({
-            model: visa
+
+          var fetchingVisaEntries = vc.request("visaEntries:entities", visa.get("id"));
+          $.when(fetchingVisaEntries).done(function(visaEntries) {
+            if (visaEntries !== undefined) {
+              var filteredData = visaEntries.filter(function(item) {
+                return item.get('visa_id') == visa.get("id")
+              });
+              visaEntries.reset(filteredData)
+
+              visaView = new Show.Visa({
+                model: visa,
+                collection: visaEntries
+              });
+
+              visaView.on("visa:edit", function(visa) {
+                vc.trigger("visa:edit", visa.get("id"));
+              });
+
+              vc.mainRegion.show(visaView);
+            } else {
+              // TODO: show missing
+            }
           });
 
-          vc.request("visaEntries:entities", visa.get("id"));
-
-          visaView.on("visa:edit", function(visa) {
-            vc.trigger("visa:edit", visa.get("id"));
-          });
         } else {
           visaView = new Show.MissingVisa();
+          vc.mainRegion.show(visaView);
         }
 
-        vc.mainRegion.show(visaView);
       });
     }
   }
