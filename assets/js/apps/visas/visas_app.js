@@ -2,6 +2,7 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
   VisasApp.Router = Marionette.AppRouter.extend({
     appRoutes: {
       "visas": "listVisas",
+      "visas/new": "newVisa",
       "visas/:id": "showVisa",
       "visas/:id/edit": "editVisa"
     }
@@ -18,6 +19,10 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
 
     editVisa: function(id) {
       VisasApp.Edit.Controller.editVisa(id);
+    },
+
+    newVisa: function() {
+      VisasApp.New.Controller.newVisa();
     }
   }
 
@@ -34,6 +39,11 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
   vc.on("visa:edit", function(id) {
     vc.navigate("visas/" + id + "/edit");
     API.editVisa(id);
+  });
+
+  vc.on("visa:new", function() {
+    vc.navigate("visas/new");
+    API.newVisa();
   });
 
   vc.addInitializer(function() {

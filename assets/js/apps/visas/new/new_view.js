@@ -1,6 +1,6 @@
-vc.module("VisasApp.Edit", function(Edit, vc, Backbone, Marionette, $, _){
-  Edit.Visa = Marionette.ItemView.extend({
-    template: "#visa-form",
+vc.module("VisasApp.New", function(New, vc, Backbone, Marionette, $, _){
+  New.Visa = Marionette.ItemView.extend({
+    template: "#visa-form-new",
 
     events: {
       "click .js-submit": "submitClicked"
@@ -40,6 +40,5 @@ vc.module("VisasApp.Edit", function(Edit, vc, Backbone, Marionette, $, _){
       _.each(errors, markErrors);
     }
   });
-
 });
 

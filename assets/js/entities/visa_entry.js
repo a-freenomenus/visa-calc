@@ -93,13 +93,11 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       var visaEntries = new Entities.VisaEntriesCollection();
       var defer = $.Deferred();
 
-      setTimeout(function() {
-        visaEntries.fetch({
-          success: function(data) {
-            defer.resolve(data)
-          }
-        });
-      }, 1000);
+      visaEntries.fetch({
+        success: function(data) {
+          defer.resolve(data)
+        }
+      });
 
       var promise = defer.promise();
       $.when(promise).done(function(visaEntries) {

@@ -1,15 +1,15 @@
-vc.module("VisasApp.Edit", function(Edit, vc, Backbone, Marionette, $, _){
-  Edit.Controller = {
-    editVisa: function(visaId) {
+vc.module("VisasApp.New", function(New, vc, Backbone, Marionette, $, _){
+  New.Controller = {
+    newVisa: function() {
       var loadingView = new vc.Common.Views.Loading({});
       vc.mainRegion.show(loadingView);
 
-      var fetchingVisa = vc.request("visa:entity", visaId);
+      var fetchingVisa = vc.request("visa:newEntity");
       $.when(fetchingVisa).done(function(visa) {
         var visaView;
 
         if (visa !== undefined) {
-          visaView = new Edit.Visa({
+          visaView = new New.Visa({
             model: visa
           });
 
@@ -20,9 +20,6 @@ vc.module("VisasApp.Edit", function(Edit, vc, Backbone, Marionette, $, _){
               visaView.triggerMethod("form:data:invalid", visa.validationError);
             }
           });
-
-        } else {
-          visaView = new vc.VisasApp.Show.MissingVisa();
         }
 
         vc.mainRegion.show(visaView);

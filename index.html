@@ -47,7 +47,6 @@
     </td>
     <td><%= startDate %></td>
     <td><%= endDate %></td>
-    <td><%= type %></td>
     <td><%= daysLeft %></td>
     <td>
       <a href="#visas/<%= id %>" class="btn btn-small js-show">
@@ -66,7 +65,6 @@
           <th>Name</th>
           <th>Start Date</th>
           <th>End Date</th>
-          <th>Type</th>
           <th>Days Left</th>
           <th></th>
         </tr>
@@ -79,6 +77,9 @@
         Delete All Entries
       </button>
     </div>
+
+    <br>
+    <a href="#visas/new" class="btn btn-primary js-new-visa">Create Visa</a>
   </script>
 
   <script type="text/template" id="visa-entry-view">
@@ -165,6 +166,29 @@
 
   </script>
 
+  <script type="text/template" id="visa-form-new">
+    <h1> New Visa </h1>
+    <form>
+      <div class="control-group">
+        <label for="visa-name" name="name"> Name: </label>
+        <input id="visa-name" name="name" type="text" value="<%= name %>"/>
+      </div>
+      <div class="control-group">
+        <label for="visa-startDate" name="startDate"> Start Date: </label>
+        <input id="visa-startDate" name="startDate" type="text" value="<%= startDate %>"/>
+      </div>
+      <div class="control-group">
+        <label for="visa-endDate" name="endDate"> End Date: </label>
+        <input id="visa-endDate" name="endDate" type="text" value="<%= endDate %>"/>
+      </div>
+      <button class="btn js-submit">
+        Create
+      </button>
+    </form>
+
+    <a href="#visas" class="js-list-visas">Back to My Visas</a>
+  </script>
+
   <!-- Main app -->
   <script src="./assets/js/app.js"></script>
   <script src="./assets/js/apps/config/storage/localstorage.js"></script>
@@ -186,6 +210,9 @@
   <!--Edit-->
   <script src="./assets/js/apps/visas/edit/edit_controller.js"></script>
   <script src="./assets/js/apps/visas/edit/edit_view.js"></script>
+  <!--New -->
+  <script src="./assets/js/apps/visas/new/new_controller.js"></script>
+  <script src="./assets/js/apps/visas/new/new_view.js"></script>
 
 
 

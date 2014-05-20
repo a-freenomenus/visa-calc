@@ -2,6 +2,11 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   Entities.Visa = Backbone.Model.extend({
     urlRoot: "visas",
 
+    defaults: {
+      startDate: "",
+      endDate: ""
+    },
+
     initialize: function() {
       this.countDaysLeft();
       this.on('change:startDate', this.countDaysLeft, this);
@@ -60,22 +65,19 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
         id: 1,
         name: 'Visa 1',
         startDate: '10/10/10',
-        endDate: '10/10/11',
-        type: 'M'
+        endDate: '10/10/11'
       },
       {
         id: 2,
         name: 'Visa 2',
         startDate: '10/10/11',
-        endDate: '10/10/12',
-        type: 'M'
+        endDate: '10/10/12'
       },
       {
         id: 3,
         name: 'Visa 3',
         startDate: '10/10/13',
-        endDate: '10/10/14',
-        type: 'M'
+        endDate: '10/10/14'
       }
     ]);
 
@@ -91,13 +93,11 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       var visas = new Entities.VisaCollection();
       var defer = $.Deferred();
 
-      setTimeout(function() {
-        visas.fetch({
-          success: function(data) {
-            defer.resolve(data);
-          }
-        });
-      }, 1000);
+      visas.fetch({
+        success: function(data) {
+          defer.resolve(data);
+        }
+      });
 
       var promise = defer.promise();
       $.when(promise).done(function(visas) {
@@ -114,18 +114,28 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       var visa = new Entities.Visa({id: visaId});
       var defer = $.Deferred();
 
-      setTimeout(function() {
-        visa.fetch({
-          success: function(data) {
-            defer.resolve(data);
-          },
-          error: function(data) {
-            defer.resolve(undefined);
-          }
-        });
-      }, 1000);
+      visa.fetch({
+        success: function(data) {
+          defer.resolve(data);
+        },
+        error: function(data) {
+          defer.resolve(undefined);
+        }
+      });
 
+      return defer.promise();
+    },
 
+    getNewVisaEntity: function() {
+      var defer = $.Deferred();
+      var fetchingVisas = vc.request("visa:entities");
+      $.when(fetchingVisas).done(function(visas) {
+        // get visa id
+        var lastModelId = visas.pop().get('id');
+        // create new visa object
+        var visa = new Entities.Visa({id: ++lastModelId});
+        defer.resolve(visa);
+      });
       return defer.promise();
     }
   }
@@ -136,6 +146,10 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
   vc.reqres.setHandler("visa:entity", function(id) {
     return API.getVisaEntity(id);
+  });
+
+  vc.reqres.setHandler("visa:newEntity", function() {
+    return API.getNewVisaEntity();
   });
 });
 
