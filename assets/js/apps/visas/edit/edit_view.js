@@ -7,8 +7,8 @@ vc.module("VisasApp.Edit", function(Edit, vc, Backbone, Marionette, $, _){
     },
 
     onRender: function() {
-      /* console.log('render!') */
-      // TODO: add calendar
+      this.$el.find("#visa-startDate").datepicker({})
+      this.$el.find("#visa-endDate").datepicker({})
     },
 
     submitClicked: function(e) {
