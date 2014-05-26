@@ -20,64 +20,64 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
         id: 1,
         visa_id: 1,
         name: "Visa Entry 1",
-        startDate: '12/05/11',
-        endDate: '18/05/11'
+        startDate: '05/12/2011',
+        endDate: '05/18/2011'
       },
       {
         id: 2,
         visa_id: 1,
         name: "Visa Entry 2",
-        startDate: '22/05/11',
-        endDate: '28/05/11'
+        startDate: '05/22/2011',
+        endDate: '05/28/2011'
       },
       {
         id: 3,
         visa_id: 1,
         name: "Visa Entry 3",
-        startDate: '12/08/11',
-        endDate: '24/08/11'
+        startDate: '08/12/2011',
+        endDate: '08/24/2011'
       },
       {
         id: 4,
         visa_id: 2,
         name: "Visa Entry 4",
-        startDate: '12/05/12',
-        endDate: '18/05/12'
+        startDate: '08/12/2012',
+        endDate: '08/24/2012'
       },
       {
         id: 5,
         visa_id: 2,
         name: "Visa Entry 5",
-        startDate: '22/05/12',
-        endDate: '28/05/12'
+        startDate: '05/22/2012',
+        endDate: '05/28/2012'
       },
       {
         id: 6,
         visa_id: 2,
         name: "Visa Entry 6",
-        startDate: '12/08/12',
-        endDate: '24/08/12'
+        startDate: '08/12/2012',
+        endDate: '08/24/2012'
       },
       {
         id: 7,
         visa_id: 3,
         name: "Visa Entry 7",
-        startDate: '12/05/13',
-        endDate: '18/05/13'
+        startDate: '05/12/2012',
+        endDate: '05/18/2012'
       },
       {
         id: 8,
         visa_id: 3,
         name: "Visa Entry 8",
-        startDate: '22/05/13',
-        endDate: '28/05/13'
+        startDate: '05/22/2011',
+        endDate: '05/28/2011'
       },
       {
         id: 9,
         visa_id: 3,
         name: "Visa Entry 9",
-        startDate: '12/08/13',
-        endDate: '24/08/13'
+        startDate: '08/12/2011',
+        endDate: '08/24/2011'
       }
     ]);
 
