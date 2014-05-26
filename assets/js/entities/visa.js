@@ -131,12 +131,31 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       var fetchingVisas = vc.request("visa:entities");
       $.when(fetchingVisas).done(function(visas) {
         // get visa id
-        var lastModelId = visas.pop().get('id');
+        var newId = 1;
+        if (visas.length) {
+          var lastModelId = visas.pop().get('id');
+          newId = lastModelId++;
+        }
         // create new visa object
-        var visa = new Entities.Visa({id: ++lastModelId});
+        var visa = new Entities.Visa({id: newId});
         defer.resolve(visa);
       });
       return defer.promise();
+    },
+
+    deleteEntities: function() {
+      var visas = new Entities.VisaCollection();
+
+      visas.fetch({
+        success: function(data) {
+          var model;
+          while (model = data.first()) {
+            model.destroy();
+          }
+        }
+      });
+
+      return true;
     }
   }
 
@@ -150,6 +169,10 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
   vc.reqres.setHandler("visa:newEntity", function() {
     return API.getNewVisaEntity();
+  });
+
+  vc.reqres.setHandler("visa:deleteAll", function() {
+    return API.deleteEntities();
   });
 });
 

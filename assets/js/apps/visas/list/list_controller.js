@@ -23,10 +23,11 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
           });
 
           visasListView.on("visas:delete", function(childView) {
-            var model;
-            while (model = visas.first()) {
-              model.destroy();
-            }
+            // Delete Visa Entities
+            vc.request("visa:deleteAll");
+
+            // Delete Visa Entries Entities
+            vc.request("visaEntries:deleteAll");
 
             vc.trigger("visas:list");
           });

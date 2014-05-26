@@ -114,6 +114,22 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
     getVisaEntry: function(visaEntryId) {
       console.log('getVisaEntries', visaEntryId)
+    },
+
+    deleteEntities: function() {
+      var visaEntries = new Entities.VisaEntriesCollection();
+
+      visaEntries.fetch({
+        success: function(data) {
+          var model;
+          while (model = data.first()) {
+            model.destroy();
+          }
+        }
+      });
+
+      return true;
+
     }
   }
 
@@ -123,6 +139,10 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
   vc.reqres.setHandler("visaEntries:entity", function(visaEntryId) {
     return API.getVisaEntry(visaEntryId);
+  });
+
+  vc.reqres.setHandler("visaEntries:deleteAll", function() {
+    return API.deleteEntities();
   });
 });
 
