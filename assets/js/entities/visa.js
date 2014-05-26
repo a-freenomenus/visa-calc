@@ -134,7 +134,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
         var newId = 1;
         if (visas.length) {
           var lastModelId = visas.pop().get('id');
-          newId = lastModelId++;
+          newId = ++lastModelId;
         }
         // create new visa object
         var visa = new Entities.Visa({id: newId});

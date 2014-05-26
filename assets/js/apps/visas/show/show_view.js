@@ -13,11 +13,17 @@ vc.module("VisasApp.Show", function(Show, vc, Backbone, Marionette, $, _){
 
     events: {
       "click .js-edit": "editClicked",
+      "click .js-list-visas": "listVisas",
     },
 
     editClicked: function(e) {
       e.preventDefault();
       this.trigger("visa:edit", this.model);
+    },
+
+    listVisas: function(e) {
+      e.preventDefault();
+      vc.trigger("visas:list", true);
     }
   });
 

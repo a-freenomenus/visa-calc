@@ -29,7 +29,7 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
             // Delete Visa Entries Entities
             vc.request("visaEntries:deleteAll");
 
-            vc.trigger("visas:list");
+            vc.trigger("visas:list", true);
           });
         } else {
           visasListView = new List.MissingVisas();
