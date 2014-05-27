@@ -1,6 +1,22 @@
 vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   Entities.VisaEntry = Backbone.Model.extend({
-    urlRoot: "visa-entries"
+    urlRoot: "visa-entries",
+
+    initialize: function() {
+      this.countDaysTotal();
+
+      this.on('change:startDate', this.countDaysTotal, this);
+      this.on('change:endtDate', this.countDaysTotal, this);
+    },
+
+    countDaysTotal: function() {
+      var startDate = moment(this.get('startDate'));
+      var endDate   = moment(this.get('endDate'));
+
+      this.set({
+        daysTotal: endDate.diff(startDate, 'days')
+      })
+    }
   });
 
   Entities.configureStorage(Entities.VisaEntry);

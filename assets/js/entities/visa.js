@@ -8,9 +8,13 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
     },
 
     initialize: function() {
+      this.countDaysTotal();
       this.countDaysLeft();
+
       this.on('change:startDate', this.countDaysLeft, this);
       this.on('change:endtDate', this.countDaysLeft, this);
+      this.on('change:startDate', this.countDaysTotal, this);
+      this.on('change:endtDate', this.countDaysTotal, this);
     },
 
     validate: function(attrs, options) {
@@ -43,7 +47,16 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
     countDaysLeft: function() {
       this.set({
-        daysLeft: 31
+        daysLeft: 'N/A'
+      })
+    },
+
+    countDaysTotal: function() {
+      var startDate = moment(this.get('startDate'));
+      var endDate   = moment(this.get('endDate'));
+
+      this.set({
+        daysTotal: endDate.diff(startDate, 'days')
       })
     }
   });
@@ -71,13 +84,13 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
         id: 2,
         name: 'Visa 2',
         startDate: '10/10/2011',
-        endDate: '10/10/12'
+        endDate: '10/10/2012'
       },
       {
         id: 3,
         name: 'Visa 3',
         startDate: '10/10/2013',
-        endDate: '10/10/214'
+        endDate: '10/10/2014'
       }
     ]);
 

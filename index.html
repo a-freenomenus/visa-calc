@@ -31,6 +31,7 @@
   <script src="./assets/js/vendor/backbone.marionette.js"></script>
   <script src="./assets/js/vendor/spin.js"></script>
   <script src="./assets/js/vendor/spin.jquery.js"></script>
+  <script src="./assets/js/vendor/moment-with-langs.min.js"></script>
 
   <!--Templates-->
   <script type="text/template" id="">
@@ -48,6 +49,7 @@
     </td>
     <td><%= startDate %></td>
     <td><%= endDate %></td>
+    <td><%= daysTotal %></td>
     <td><%= daysLeft %></td>
     <td>
       <a href="#visas/<%= id %>" class="btn btn-small js-show">
@@ -66,21 +68,25 @@
           <th>Name</th>
           <th>Start Date</th>
           <th>End Date</th>
+          <th>Days Total</th>
           <th>Days Left</th>
           <th></th>
         </tr>
       </thead>
     <tbody> </tbody>
     </table>
-    <div>
+
+    <div class="pull-left">
+      <a href="#visas/new" class="btn btn-primary js-new-visa">Create Visa</a>
+    </div>
+
+    <div class="pull-right">
       <button class="btn btn-small js-delete-all">
         <i class="icon-remove"></i>
         Delete All Entries
       </button>
     </div>
 
-    <br>
-    <a href="#visas/new" class="btn btn-primary js-new-visa">Create Visa</a>
   </script>
 
   <script type="text/template" id="visa-entry-view">
@@ -94,7 +100,7 @@
       <%= endDate %>
     </td>
     <td>
-      0
+      <%= daysTotal %>
     </td>
   </script>
 
@@ -102,7 +108,7 @@
     <h1><%= name %></h1>
     <p> <strong> Start Date: </strong> <%= startDate %> </p>
     <p> <strong> End Date: </strong> <%= endDate %> </p>
-    <p> <strong> Days Left: </strong> <%= daysLeft %> </p>
+    <p> <strong> Days Total: </strong> <%= daysTotal %> </p>
 
     <div id="visa-entries">
       <table class="table table-hover table-striped">
@@ -118,13 +124,16 @@
       </table>
     </div>
 
-    <a href="#visas/<%= id %>/edit" class="btn btn-small js-edit">
-      <i class="icon-pencil"></i>
-      Edit Visa
-    </a>
-    <br>
-    <br>
-    <a href="#visas" class="js-list-visas">Back to My Visas</a>
+    <div class="pull-left">
+      <a href="#visas" class="js-list-visas">Back to My Visas</a>
+    </div>
+
+    <div class="pull-right">
+      <a href="#visas/<%= id %>/edit" class="btn btn-small js-edit">
+        <i class="icon-pencil"></i>
+        Edit Visa
+      </a>
+    </div>
   </script>
 
 
