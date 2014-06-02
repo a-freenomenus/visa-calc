@@ -2,6 +2,11 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   Entities.VisaEntry = Backbone.Model.extend({
     urlRoot: "visa-entries",
 
+    defaults: {
+      startDate: "",
+      endDate: ""
+    },
+
     initialize: function() {
       this.countDaysTotal();
 
@@ -16,7 +21,27 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       this.set({
         daysTotal: endDate.diff(startDate, 'days')
       })
-    }
+    },
+
+    validate: function(attrs, options) {
+      var errors = {};
+
+      if (! attrs.name) {
+        errors.name = "can't be blank";
+      }
+
+      if (! attrs.startDate) {
+        errors.startDate = "can't be blank";
+      }
+
+      if (! attrs.endDate) {
+        errors.endDate = "can't be blank";
+      }
+
+      if ( ! _.isEmpty(errors)) {
+        return errors;
+      }
+    },
   });
 
   Entities.configureStorage(Entities.VisaEntry);
@@ -145,7 +170,23 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       });
 
       return true;
+    },
 
+    getNewVisaEntryEntity: function() {
+      var defer = $.Deferred();
+      var fetchingVisasEntries = vc.request("visaEntries:entities");
+      $.when(fetchingVisasEntries).done(function(visaEntries) {
+        // get visa id
+        var newId = 1;
+        if (visaEntries.length) {
+          var lastModelId = visaEntries.pop().get('id');
+          newId = ++lastModelId;
+        }
+        // create new visa object
+        var visaEntry = new Entities.VisaEntry({id: newId});
+        defer.resolve(visaEntry);
+      });
+      return defer.promise();
     }
   }
 
@@ -159,6 +200,10 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
   vc.reqres.setHandler("visaEntries:deleteAll", function() {
     return API.deleteEntities();
+  });
+
+  vc.reqres.setHandler("visaEntries:newEntity", function() {
+    return API.getNewVisaEntryEntity();
   });
 });
 

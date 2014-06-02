@@ -4,7 +4,8 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
       "visas": "listVisas",
       "visas/new": "newVisa",
       "visas/:id": "showVisa",
-      "visas/:id/edit": "editVisa"
+      "visas/:id/edit": "editVisa",
+      "visas/:id/new_entry": "newVisaEntry"
     }
   });
 
@@ -23,6 +24,10 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
 
     newVisa: function() {
       VisasApp.New.Controller.newVisa();
+    },
+
+    newVisaEntry: function(visaId) {
+      VisasApp.New.Controller.newVisaEntry(visaId);
     }
   }
 

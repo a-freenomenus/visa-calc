@@ -40,5 +40,48 @@ vc.module("VisasApp.New", function(New, vc, Backbone, Marionette, $, _){
       _.each(errors, markErrors);
     }
   });
+
+  New.VisaEntry = Marionette.ItemView.extend({
+    template: "#visa-entry-form-new",
+
+    events: {
+      "click .js-new-entry-submit": "submitClicked"
+    },
+
+    onRender: function() {
+      this.$el.find("#visa-entry-startDate").datepicker({})
+      this.$el.find("#visa-entry-endDate").datepicker({})
+    },
+
+    submitClicked: function(e) {
+      e.preventDefault();
+      var data = Backbone.Syphon.serialize(this);
+      this.trigger("form:submit", data);
+    },
+
+    onFormDataInvalid: function(errors) {
+      var $view = this.$el;
+
+      var clearFormErrors = function() {
+        var $form = $view.find("form");
+        $form.find(".help-inline.error").each(function() {
+          $(this).remove();
+        });
+        $form.find(".control-group.error").each(function() {
+          $(this).removeClass("error");
+        });
+      }
+
+      var markErrors = function(value, key) {
+        var $controlGroup = $view.find("#visa-entry-" + key).parent();
+        var $errorEl = $("<span>", {class: "help-inline error", text: value});
+        $controlGroup.append($errorEl).addClass("error");
+      }
+
+      clearFormErrors();
+      _.each(errors, markErrors);
+    }
+
+  });
 });
 

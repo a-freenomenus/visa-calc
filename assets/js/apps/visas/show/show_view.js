@@ -13,7 +13,7 @@ vc.module("VisasApp.Show", function(Show, vc, Backbone, Marionette, $, _){
 
     events: {
       "click .js-edit": "editClicked",
-      "click .js-list-visas": "listVisas",
+      "click .js-list-visas": "listVisas"
     },
 
     editClicked: function(e) {
@@ -25,6 +25,7 @@ vc.module("VisasApp.Show", function(Show, vc, Backbone, Marionette, $, _){
       e.preventDefault();
       vc.trigger("visas:list", true);
     }
+
   });
 
   Show.MissingVisa = Marionette.ItemView.extend({

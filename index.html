@@ -91,6 +91,36 @@
 
   </script>
 
+  <script type="text/template" id="visa-entry-form-new">
+    <h1> New Visa Entry </h1>
+    <form role="form">
+      <div class="control-group form-group">
+        <label for="visa-entry-name" name="name"> Name: </label>
+        <input id="visa-entry-name" name="name" type="text" value="<%= name %>" class="form-control"/>
+      </div>
+
+      <div class="control-group form-group">
+        <label for="visa-entry-startDate" name="startDate"> Start Date: </label>
+        <input id="visa-entry-startDate" name="startDate" type="text" value="<%= startDate %>" class="form-control"/>
+      </div>
+
+      <div class="control-group form-group">
+        <label for="visa-entry-endDate" name="endDate"> End Date: </label>
+        <input id="visa-entry-endDate" name="endDate" type="text" value="<%= endDate %>" class="form-control"/>
+      </div>
+
+      <div class="pull-left">
+        <a href="#visas/<%= visa_id %>" class="btn btn-default js-list-visas">Back to Visa</a>
+      </div>
+
+      <div class="pull-right">
+        <button class="btn btn-primary js-new-entry-submit">
+          Create Visa Entry
+        </button>
+      </div>
+    </form>
+  </script>
+
   <script type="text/template" id="visa-entry-view">
     <td>
       <%= name %>
@@ -121,6 +151,7 @@
 
     </div>
 
+
     <div class="panel panel-default" id="visa-entries">
       <table class="table table-hover table-striped">
         <thead>
@@ -137,6 +168,7 @@
 
     <div class="pull-left">
       <a href="#visas" class="btn btn-default js-list-visas">Back</a>
+      <a href="#visas/<%= id %>/new_entry" class="btn btn-primary js-new-visa-entry">New Visa Entry</a>
     </div>
 
     <div class="pull-right">
