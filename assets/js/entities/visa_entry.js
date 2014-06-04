@@ -154,7 +154,19 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
     },
 
     getVisaEntry: function(visaEntryId) {
-      console.log('getVisaEntries', visaEntryId)
+      var visaEntry = new Entities.VisaEntry({id: visaEntryId});
+      var defer = $.Deferred();
+
+      visaEntry.fetch({
+        success: function(data) {
+          defer.resolve(data);
+        },
+        error: function(data) {
+          defer.resolve(undefined);
+        }
+      });
+
+      return defer.promise();
     },
 
     deleteEntities: function() {

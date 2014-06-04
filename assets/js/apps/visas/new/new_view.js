@@ -22,18 +22,18 @@ vc.module("VisasApp.New", function(New, vc, Backbone, Marionette, $, _){
 
       var clearFormErrors = function() {
         var $form = $view.find("form");
-        $form.find(".help-inline.error").each(function() {
+        $form.find(".help-inline.has-error").each(function() {
           $(this).remove();
         });
-        $form.find(".control-group.error").each(function() {
-          $(this).removeClass("error");
+        $form.find(".form-group.has-error").each(function() {
+          $(this).removeClass("has-error");
         });
       }
 
       var markErrors = function(value, key) {
         var $controlGroup = $view.find("#visa-" + key).parent();
-        var $errorEl = $("<span>", {class: "help-inline error", text: value});
-        $controlGroup.append($errorEl).addClass("error");
+        var $errorEl = $("<span>", {class: "help-inline has-error", text: value});
+        $controlGroup.append($errorEl).addClass("has-error");
       }
 
       clearFormErrors();
@@ -64,18 +64,18 @@ vc.module("VisasApp.New", function(New, vc, Backbone, Marionette, $, _){
 
       var clearFormErrors = function() {
         var $form = $view.find("form");
-        $form.find(".help-inline.error").each(function() {
+        $form.find(".help-inline.has-error").each(function() {
           $(this).remove();
         });
-        $form.find(".control-group.error").each(function() {
-          $(this).removeClass("error");
+        $form.find(".form-group.has-error").each(function() {
+          $(this).removeClass("has-error");
         });
       }
 
       var markErrors = function(value, key) {
         var $controlGroup = $view.find("#visa-entry-" + key).parent();
-        var $errorEl = $("<span>", {class: "help-inline error", text: value});
-        $controlGroup.append($errorEl).addClass("error");
+        var $errorEl = $("<span>", {class: "help-inline has-error", text: value});
+        $controlGroup.append($errorEl).addClass("has-error");
       }
 
       clearFormErrors();

@@ -5,7 +5,8 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
       "visas/new": "newVisa",
       "visas/:id": "showVisa",
       "visas/:id/edit": "editVisa",
-      "visas/:id/new_entry": "newVisaEntry"
+      "visas/:id/new_entry": "newVisaEntry",
+      "visa-entries/:id/edit": "editVisaEntry"
     }
   });
 
@@ -28,6 +29,10 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
 
     newVisaEntry: function(visaId) {
       VisasApp.New.Controller.newVisaEntry(visaId);
+    },
+
+    editVisaEntry: function(entryId) {
+      VisasApp.Edit.Controller.editVisaEntry(entryId);
     }
   }
 
@@ -49,6 +54,16 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
   vc.on("visa:new", function() {
     vc.navigate("visas/new");
     API.newVisa();
+  });
+
+  vc.on("visaEntry:new", function() {
+    vc.navigate("visas/:id/new_entry");
+    API.newVisaEntry();
+  });
+
+  vc.on("visaEntry:edit", function(id) {
+    vc.navigate("visa-entries/" + id + "/edit");
+    API.editVisaEntry(id);
   });
 
   vc.addInitializer(function() {
