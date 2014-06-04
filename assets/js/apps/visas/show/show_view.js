@@ -1,7 +1,16 @@
 vc.module("VisasApp.Show", function(Show, vc, Backbone, Marionette, $, _){
   Show.VisaEntry = Marionette.ItemView.extend({
     template: "#visa-entry-view",
-    tagName: "tr"
+    tagName: "tr",
+
+    events: {
+      "click .js-delete": "deleteClicked"
+    },
+
+    deleteClicked: function(e) {
+      e.preventDefault();
+      this.trigger("visaEntry:delete", this.model);
+    }
   });
 
   Show.Visa = Marionette.CompositeView.extend({

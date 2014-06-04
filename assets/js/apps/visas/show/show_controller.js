@@ -27,6 +27,11 @@ vc.module("VisasApp.Show", function(Show, vc, Backbone, Marionette, $, _){
                 vc.trigger("visa:edit", visa.get("id"));
               });
 
+              visaView.on("itemview:visaEntry:delete", function(childView, model) {
+                visaEntries.remove(model);
+                model.destroy();
+              });
+
               vc.mainRegion.show(visaView);
             } else {
               // TODO: show missing
