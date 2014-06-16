@@ -14,15 +14,18 @@ vc.module("VisasApp.New", function(New, vc, Backbone, Marionette, $, _){
           });
 
           visaView.on("form:submit", function(data) {
-            if (visa.save(data)) {
-              vc.trigger("visa:show", visa.get("id"));
-            } else {
-              visaView.triggerMethod("form:data:invalid", visa.validationError);
-            }
+            data.id = visa.get('id')
+            vc.visas.create(data)
+            vc.trigger("visa:show", visa.get("id"));
+            // if (visa.save(data)) {
+            //   vc.trigger("visa:show", visa.get("id"));
+            // } else {
+            //   visaView.triggerMethod("form:data:invalid", visa.validationError);
+            // }
           });
-        }
 
-        vc.mainRegion.show(visaView);
+          vc.mainRegion.show(visaView);
+        }
       });
     },
 
@@ -41,16 +44,20 @@ vc.module("VisasApp.New", function(New, vc, Backbone, Marionette, $, _){
           });
 
           visaEntryView.on("form:submit", function(data) {
-            if (visaEntry.save(data)) {
-              vc.trigger("visa:show", visaEntry.get("visa_id"), true);
-            } else {
-              visaEntryView.triggerMethod("form:data:invalid", visaEntry.validationError);
-            }
+            data.visa_id = visaEntry.get('visa_id')
+            data.id = visaEntry.get('id')
+            vc.visaEntries.create(data)
+            vc.trigger("visa:show", visaEntry.get("visa_id"));
+            // if (visaEntry.save(data)) {
+            //   vc.trigger("visa:show", visaEntry.get("visa_id"));
+            // } else {
+            //   visaEntryView.triggerMethod("form:data:invalid", visaEntry.validationError);
+            // }
           });
 
+          vc.mainRegion.show(visaEntryView);
         }
 
-        vc.mainRegion.show(visaEntryView);
       });
     }
   }

@@ -1,6 +1,7 @@
 vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   Entities.Visa = Backbone.Model.extend({
-    urlRoot: "visas",
+    /* urlRoot: "visas", */
+    /* localStorage: new Backbone.LocalStorage('visa-calc'), */
 
     defaults: {
       startDate: "",
@@ -46,30 +47,72 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
     },
 
     countDaysLeft: function() {
+      var daysLeft;
+      var PERIOD_DAYS = 180;
+
       this.set({
         daysLeft: 'N/A'
       })
     },
 
     countDaysTotal: function() {
-      var startDate = moment(this.get('startDate'));
-      var endDate   = moment(this.get('endDate'));
+      // var startDate = moment(this.get('startDate'));
+      // var endDate   = moment(this.get('endDate'));
+      // var PERIOD_DAYS = 180;
 
-      this.set({
-        daysTotal: endDate.diff(startDate, 'days')
-      })
+      // var model = this;
+      // var fetchingVisaEntries = vc.request("visaEntries:entities", model.get("id"));
+      // $.when(fetchingVisaEntries).done(function(visaEntries) {
+      //   var daysSum = 0,
+      //       entries = [];
+
+      //   visaEntries.each(function(i) {
+      //     entries.push({ startDate: i.get('startDate'), endDate: i.get('endDate') })
+      //   });
+
+      //   var datePeriodStart = moment().subtract('days', PERIOD_DAYS),
+      //       entriesSum = 0,
+      //       d,
+      //       entry;
+      //   /* console.log( datePeriodStart.format("MM DD YYYY") ) */
+
+      //   var i = 0;
+      //   for (i in entries) {
+      //     entry = entries[i];
+      //     d = moment(entry.startDate);
+      //     /* while ( !d.isSame(entry.endDate) ) { */
+      //     while ( moment(entry.endDate).diff(d, 'days') >= 0 ) {
+      //       // console.log( moment(entry.endDate).diff(d, 'days') )
+      //       // console.log( d.format('MM DD YYYY'), datePeriodStart.format('MM DD YYYY') )
+      //       // console.log(d.isAfter(datePeriodStart), d.isSame(datePeriodStart))
+      //       if ( d.isAfter(datePeriodStart) || d.isSame(datePeriodStart) ) {
+      //         entriesSum++;
+      //         /* console.log('+') */
+      //       }
+      //       d.add('days', 1);
+      //     }
+      //   }
+
+      //   /* console.log('sum: ', entriesSum) */
+      //   return entriesSum;
+      // });
+
+      // this.set({
+      //   daysTotal: endDate.diff(startDate, 'days')
+      // });
     }
   });
 
-  Entities.configureStorage(Entities.Visa);
+  /* Entities.configureStorage(Entities.Visa); */
 
   Entities.VisaCollection = Backbone.Collection.extend({
-    url: "visas",
+    /* url: "visas", */
     model: Entities.Visa,
-    comparator: "id"
+    comparator: "id",
+    localStorage: new Backbone.LocalStorage('visa'),
   });
 
-  Entities.configureStorage(Entities.VisaCollection);
+  /* Entities.configureStorage(Entities.VisaCollection); */
 
   /* Create stub collection and models */
   var initializeVisas = function() {
@@ -102,47 +145,28 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   }
 
   var API = {
-    getVisaEntities: function() {
-      var visas = new Entities.VisaCollection();
-      var defer = $.Deferred();
-
-      visas.fetch({
+    getVisaEntities: function(callback) {
+      if (typeof vc.visas === 'undefined') {
+        vc.visas = new Entities.VisaCollection();
+      }
+      vc.visas.fetch({
         success: function(data) {
-          defer.resolve(data);
+          if (typeof callback === 'function') {
+            callback(data)
+          }
+          return data
         }
       });
-
-      var promise = defer.promise();
-      $.when(promise).done(function(visas) {
-        if (visas.length === 0) {
-          var models = initializeVisas();
-          visas.reset(models);
-        }
-      });
-
-      return promise;
     },
 
     getVisaEntity: function(visaId) {
-      var visa = new Entities.Visa({id: visaId});
-      var defer = $.Deferred();
-
-      visa.fetch({
-        success: function(data) {
-          defer.resolve(data);
-        },
-        error: function(data) {
-          defer.resolve(undefined);
-        }
-      });
-
-      return defer.promise();
+      return vc.visas.get(visaId)
     },
 
     getNewVisaEntity: function() {
       var defer = $.Deferred();
-      var fetchingVisas = vc.request("visa:entities");
-      $.when(fetchingVisas).done(function(visas) {
+      vc.request("visa:entities", function(data) {
+        var visas = data;
         // get visa id
         var newId = 1;
         if (visas.length) {
@@ -165,15 +189,16 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
           while (model = data.first()) {
             model.destroy();
           }
-        }
+        },
+        reset: true
       });
 
       return true;
     }
   }
 
-  vc.reqres.setHandler("visa:entities", function() {
-    return API.getVisaEntities();
+  vc.reqres.setHandler("visa:entities", function(callback) {
+    return API.getVisaEntities(callback);
   });
 
   vc.reqres.setHandler("visa:entity", function(id) {

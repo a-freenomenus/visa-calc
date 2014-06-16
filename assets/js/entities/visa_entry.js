@@ -1,6 +1,6 @@
 vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   Entities.VisaEntry = Backbone.Model.extend({
-    urlRoot: "visa-entries",
+    /* urlRoot: "visa-entries", */
 
     defaults: {
       startDate: "",
@@ -15,12 +15,11 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
     },
 
     countDaysTotal: function() {
-      var startDate = moment(this.get('startDate'));
-      var endDate   = moment(this.get('endDate'));
+      var startDate = moment(this.get('startDate')),
+          endDate   = moment(this.get('endDate')),
+          daysDiff = endDate.diff(startDate, 'days');
 
-      this.set({
-        daysTotal: endDate.diff(startDate, 'days')
-      })
+      this.set({ daysTotal: ++daysDiff });
     },
 
     validate: function(attrs, options) {
@@ -44,15 +43,16 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
     },
   });
 
-  Entities.configureStorage(Entities.VisaEntry);
+  /* Entities.configureStorage(Entities.VisaEntry); */
 
   Entities.VisaEntriesCollection = Backbone.Collection.extend({
-    url: "visa-entries",
+    /* url: "visa-entries", */
     model: Entities.VisaEntry,
-    comparator: "id"
+    comparator: "id",
+    localStorage: new Backbone.LocalStorage('visa-entry'),
   });
 
-  Entities.configureStorage(Entities.VisaEntriesCollection);
+  /* Entities.configureStorage(Entities.VisaEntriesCollection); */
 
   /* Create stub collection and models */
   var initializeVisaEntries = function() {
@@ -130,43 +130,36 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   }
 
   var API = {
-    getVisaEntries: function(visaId) {
-      var visaEntries = new Entities.VisaEntriesCollection();
-      var defer = $.Deferred();
-
-      visaEntries.fetch({
+    getVisaEntries: function(visaId, callback) {
+      if (typeof vc.visaEntries === 'undefined') {
+        vc.visaEntries = new Entities.VisaEntriesCollection();
+      }
+      vc.visaEntries.fetch({
         success: function(data) {
-          defer.resolve(data)
+          if (typeof callback === 'function') {
+            callback(data)
+          }
+          return data
+        },
+        error: function(data) {
+          return undefined
         }
       });
 
-      var promise = defer.promise();
-      $.when(promise).done(function(visaEntries) {
-        if (visaEntries.length === 0) {
-          var models = initializeVisaEntries();
-          visaEntries.reset(models);
-        }
+      // var promise = defer.promise();
+      // $.when(promise).done(function(visaEntries) {
+      //   if (visaEntries.length === 0) {
+      //     var models = initializeVisaEntries();
+      //     visaEntries.reset(models);
+      //   }
+      // });
 
-      });
 
-
-      return promise;
+      /* return defer.promise(); */
     },
 
     getVisaEntry: function(visaEntryId) {
-      var visaEntry = new Entities.VisaEntry({id: visaEntryId});
-      var defer = $.Deferred();
-
-      visaEntry.fetch({
-        success: function(data) {
-          defer.resolve(data);
-        },
-        error: function(data) {
-          defer.resolve(undefined);
-        }
-      });
-
-      return defer.promise();
+      return vc.visaEntries.get(visaEntryId);
     },
 
     deleteEntities: function() {
@@ -178,7 +171,8 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
           while (model = data.first()) {
             model.destroy();
           }
-        }
+        },
+        reset: true
       });
 
       return true;
@@ -186,18 +180,16 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
     getNewVisaEntryEntity: function() {
       var defer = $.Deferred();
-      var fetchingVisasEntries = vc.request("visaEntries:entities");
-      $.when(fetchingVisasEntries).done(function(visaEntries) {
-        // get visa id
-        var newId = 1;
-        if (visaEntries.length) {
-          var lastModelId = visaEntries.pop().get('id');
-          newId = ++lastModelId;
-        }
-        // create new visa object
-        var visaEntry = new Entities.VisaEntry({id: newId});
-        defer.resolve(visaEntry);
-      });
+      var visaEntries = vc.visaEntries;
+      // get visa id
+      var newId = 1;
+      if (visaEntries.length) {
+        var lastModelId = visaEntries.pop().get('id');
+        newId = ++lastModelId;
+      }
+      // create new visa object
+      var visaEntry = new Entities.VisaEntry({id: newId});
+      defer.resolve(visaEntry);
       return defer.promise();
     }
   }

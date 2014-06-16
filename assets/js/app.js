@@ -15,9 +15,13 @@ vc.getCurrentRoute = function() {
 
 vc.on("initialize:after", function() {
 
+  vc.request("visa:entities");
+  vc.request("visaEntries:entities");
+
   if (Backbone.history) {
     Backbone.history.start();
     /* Backbone.history.start({pushState: true}); */
+
 
     if (this.getCurrentRoute() === "") {
       vc.trigger("visas:list");

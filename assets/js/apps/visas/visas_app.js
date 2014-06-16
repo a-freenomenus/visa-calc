@@ -42,7 +42,7 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
   });
 
   vc.on("visa:show", function(id) {
-    vc.navigate("visas/" + id);
+    vc.navigate("visas/" + id, {trigger: true});
     API.showVisa(id);
   });
 
@@ -56,9 +56,9 @@ vc.module("VisasApp", function(VisasApp, vc, Backbone, Marionette, $, _){
     API.newVisa();
   });
 
-  vc.on("visaEntry:new", function() {
-    vc.navigate("visas/:id/new_entry");
-    API.newVisaEntry();
+  vc.on("visaEntry:new", function(id) {
+    vc.navigate("visas/" + id + "/new_entry");
+    API.newVisaEntry(id);
   });
 
   vc.on("visaEntry:edit", function(id) {
