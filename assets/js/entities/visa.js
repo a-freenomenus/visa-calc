@@ -1,8 +1,5 @@
 vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   Entities.Visa = Backbone.Model.extend({
-    /* urlRoot: "visas", */
-    /* localStorage: new Backbone.LocalStorage('visa-calc'), */
-
     defaults: {
       startDate: "",
       endDate: ""
@@ -10,10 +7,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
     initialize: function() {
       this.countDaysTotal();
-      this.countDaysLeft();
 
-      this.on('change:startDate', this.countDaysLeft, this);
-      this.on('change:endtDate', this.countDaysLeft, this);
       this.on('change:startDate', this.countDaysTotal, this);
       this.on('change:endtDate', this.countDaysTotal, this);
     },
@@ -46,73 +40,21 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       }
     },
 
-    countDaysLeft: function() {
-      var daysLeft;
-      var PERIOD_DAYS = 180;
+    countDaysTotal: function() {
+      var startDate = moment(this.get('startDate'));
+      var endDate   = moment(this.get('endDate'));
 
       this.set({
-        daysLeft: 'N/A'
-      })
-    },
-
-    countDaysTotal: function() {
-      // var startDate = moment(this.get('startDate'));
-      // var endDate   = moment(this.get('endDate'));
-      // var PERIOD_DAYS = 180;
-
-      // var model = this;
-      // var fetchingVisaEntries = vc.request("visaEntries:entities", model.get("id"));
-      // $.when(fetchingVisaEntries).done(function(visaEntries) {
-      //   var daysSum = 0,
-      //       entries = [];
-
-      //   visaEntries.each(function(i) {
-      //     entries.push({ startDate: i.get('startDate'), endDate: i.get('endDate') })
-      //   });
-
-      //   var datePeriodStart = moment().subtract('days', PERIOD_DAYS),
-      //       entriesSum = 0,
-      //       d,
-      //       entry;
-      //   /* console.log( datePeriodStart.format("MM DD YYYY") ) */
-
-      //   var i = 0;
-      //   for (i in entries) {
-      //     entry = entries[i];
-      //     d = moment(entry.startDate);
-      //     /* while ( !d.isSame(entry.endDate) ) { */
-      //     while ( moment(entry.endDate).diff(d, 'days') >= 0 ) {
-      //       // console.log( moment(entry.endDate).diff(d, 'days') )
-      //       // console.log( d.format('MM DD YYYY'), datePeriodStart.format('MM DD YYYY') )
-      //       // console.log(d.isAfter(datePeriodStart), d.isSame(datePeriodStart))
-      //       if ( d.isAfter(datePeriodStart) || d.isSame(datePeriodStart) ) {
-      //         entriesSum++;
-      //         /* console.log('+') */
-      //       }
-      //       d.add('days', 1);
-      //     }
-      //   }
-
-      //   /* console.log('sum: ', entriesSum) */
-      //   return entriesSum;
-      // });
-
-      // this.set({
-      //   daysTotal: endDate.diff(startDate, 'days')
-      // });
+        daysTotal: endDate.diff(startDate, 'days')
+      });
     }
   });
 
-  /* Entities.configureStorage(Entities.Visa); */
-
   Entities.VisaCollection = Backbone.Collection.extend({
-    /* url: "visas", */
     model: Entities.Visa,
     comparator: "id",
     localStorage: new Backbone.LocalStorage('visa'),
   });
-
-  /* Entities.configureStorage(Entities.VisaCollection); */
 
   /* Create stub collection and models */
   var initializeVisas = function() {
@@ -146,17 +88,16 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
   var API = {
     getVisaEntities: function(callback) {
+      var defer = $.Deferred();
       if (typeof vc.visas === 'undefined') {
         vc.visas = new Entities.VisaCollection();
       }
       vc.visas.fetch({
         success: function(data) {
-          if (typeof callback === 'function') {
-            callback(data)
-          }
-          return data
+          defer.resolve(data)
         }
       });
+      return defer.promise()
     },
 
     getVisaEntity: function(visaId) {
@@ -165,8 +106,8 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
 
     getNewVisaEntity: function() {
       var defer = $.Deferred();
-      vc.request("visa:entities", function(data) {
-        var visas = data;
+      var fetchingVisas = vc.request("visa:entities");
+      $.when(fetchingVisas).done(function(visas) {
         // get visa id
         var newId = 1;
         if (visas.length) {

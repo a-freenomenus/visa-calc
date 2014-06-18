@@ -26,10 +26,6 @@ vc.module("VisasApp.Show", function(Show, vc, Backbone, Marionette, $, _){
       }
     },
 
-    // getItemView: function() {
-    //   return Show.VisaEntry
-    // },
-
     events: {
       "click .js-edit": "editClicked",
       "click .js-new-visa-entry": "newVisaEntry",
@@ -49,7 +45,7 @@ vc.module("VisasApp.Show", function(Show, vc, Backbone, Marionette, $, _){
     newVisaEntry: function(e) {
       e.preventDefault();
       vc.trigger("visaEntry:new", this.model.get('id'));
-    }
+    },
 
   });
 

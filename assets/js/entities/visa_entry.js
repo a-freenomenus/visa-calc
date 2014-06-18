@@ -130,19 +130,17 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   }
 
   var API = {
-    getVisaEntries: function(visaId, callback) {
+    getVisaEntries: function(callback) {
+      var defer = $.Deferred();
       if (typeof vc.visaEntries === 'undefined') {
         vc.visaEntries = new Entities.VisaEntriesCollection();
       }
       vc.visaEntries.fetch({
         success: function(data) {
-          if (typeof callback === 'function') {
-            callback(data)
-          }
-          return data
+          defer.resolve(data);
         },
         error: function(data) {
-          return undefined
+          defer.resolve(undefined);
         }
       });
 
@@ -155,7 +153,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       // });
 
 
-      /* return defer.promise(); */
+      return defer.promise();
     },
 
     getVisaEntry: function(visaEntryId) {
@@ -194,8 +192,8 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
     }
   }
 
-  vc.reqres.setHandler("visaEntries:entities", function(visaId) {
-    return API.getVisaEntries(visaId);
+  vc.reqres.setHandler("visaEntries:entities", function(callback) {
+    return API.getVisaEntries(callback);
   });
 
   vc.reqres.setHandler("visaEntries:entity", function(visaEntryId) {
