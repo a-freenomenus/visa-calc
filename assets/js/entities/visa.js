@@ -8,8 +8,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
     initialize: function() {
       this.countDaysTotal();
 
-      this.on('change:startDate', this.countDaysTotal, this);
-      this.on('change:endtDate', this.countDaysTotal, this);
+      this.on('change', this.countDaysTotal, this);
     },
 
     validate: function(attrs, options) {
@@ -43,9 +42,10 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
     countDaysTotal: function() {
       var startDate = moment(this.get('startDate'));
       var endDate   = moment(this.get('endDate'));
+      var daysTotal = endDate.diff(startDate, 'days') + 1;
 
       this.set({
-        daysTotal: endDate.diff(startDate, 'days')
+        daysTotal: daysTotal
       });
     }
   });

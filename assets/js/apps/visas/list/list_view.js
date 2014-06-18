@@ -4,8 +4,9 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
     template: "#visas-list-item",
 
     events: {
+      "click": "showClicked",
       "click .js-delete": "deleteClicked",
-      "click .js-show": "showClicked"
+      "click .js-show": "editClicked"
     },
 
     deleteClicked: function(e) {
@@ -16,6 +17,11 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
     showClicked: function(e) {
       e.preventDefault();
       this.trigger("visa:show", this.model);
+    },
+
+    editClicked: function(e) {
+      e.preventDefault();
+      this.trigger("visa:edit", this.model);
     },
 
     remove: function() {

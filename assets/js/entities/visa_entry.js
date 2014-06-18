@@ -10,8 +10,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
     initialize: function() {
       this.countDaysTotal();
 
-      this.on('change:startDate', this.countDaysTotal, this);
-      this.on('change:endtDate', this.countDaysTotal, this);
+      this.on('change', this.countDaysTotal, this);
     },
 
     countDaysTotal: function() {

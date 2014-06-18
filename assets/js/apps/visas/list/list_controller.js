@@ -19,6 +19,10 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
             vc.trigger("visa:show", model.get("id"));
           });
 
+          visasListView.on("itemview:visa:edit", function(childView, model) {
+            vc.trigger("visa:edit", model.get("id"));
+          });
+
           visasListView.on("itemview:visa:delete", function(childView, model) {
             model.destroy()
             // TODO: Remove Entities
