@@ -11,6 +11,7 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
 
     deleteClicked: function(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.trigger("visa:delete", this.model);
     },
 
@@ -24,7 +25,7 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
       this.trigger("visa:edit", this.model);
     },
 
-    remove: function() {
+    remove: function(e) {
       var self = this;
       this.$el.fadeOut(function() {
         Marionette.ItemView.prototype.remove.call(self);

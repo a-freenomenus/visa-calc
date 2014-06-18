@@ -24,8 +24,14 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
           });
 
           visasListView.on("itemview:visa:delete", function(childView, model) {
-            model.destroy()
-            // TODO: Remove Entities
+            var entriesToDelete = vc.visaEntries.where({ visa_id: model.get('id') });
+            if (entriesToDelete.length) {
+              _.each(entriesToDelete, function(entry) {
+                entry.destroy();
+              });
+            }
+            model.destroy();
+            vc.trigger("visas:list", true);
           });
 
           visasListView.on("visas:delete", function(childView) {
