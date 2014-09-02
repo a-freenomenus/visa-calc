@@ -26,7 +26,7 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
             daysCount--;
             day = moment(start).add('days', daysCount);
             if ( day.isAfter(datePeriodStart) || day.isSame(datePeriodStart) ) {
-              console.log('+', day.format("MM DD YYYY"))
+              /* console.log('+', day.format("MM DD YYYY")) */
               daysLeft--;
             }
           } while (daysCount > 0)

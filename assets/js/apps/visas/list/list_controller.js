@@ -47,7 +47,17 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
           visasListView = new List.MissingVisas();
         }
 
-        vc.mainRegion.show(visasListView);
+        var visasListLayout = new List.VisasListLayout();
+        visasListLayout.render();
+        vc.mainRegion.show(visasListLayout);
+        visasListLayout.visas.show(visasListView);
+
+        if (vc.visaEntries.length) {
+          var visaEntriesListView = new List.VisaEntries({
+            collection: vc.visaEntries
+          });
+          visasListLayout.entries.show(visaEntriesListView);
+        }
       });
     }
   }

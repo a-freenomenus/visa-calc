@@ -2,13 +2,14 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
   Entities.Visa = Backbone.Model.extend({
     defaults: {
       startDate: "",
-      endDate: ""
+      endDate: "",
+      daysTotal: 90
     },
 
     initialize: function() {
-      this.countDaysTotal();
+      // this.countDaysTotal();
 
-      this.on('change', this.countDaysTotal, this);
+      // this.on('change', this.countDaysTotal, this);
     },
 
     validate: function(attrs, options) {
@@ -39,15 +40,15 @@ vc.module("Entities", function(Entities, vc, Backbone, Marionette, $, _){
       }
     },
 
-    countDaysTotal: function() {
-      var startDate = moment(this.get('startDate'));
-      var endDate   = moment(this.get('endDate'));
-      var daysTotal = endDate.diff(startDate, 'days') + 1;
+    // countDaysTotal: function() {
+    //   var startDate = moment(this.get('startDate'));
+    //   var endDate   = moment(this.get('endDate'));
+    //   var daysTotal = endDate.diff(startDate, 'days') + 1;
 
-      this.set({
-        daysTotal: daysTotal
-      });
-    }
+    //   this.set({
+    //     daysTotal: daysTotal
+    //   });
+    // }
   });
 
   Entities.VisaCollection = Backbone.Collection.extend({

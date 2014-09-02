@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Visa Calculator</title>
+  <title>Визовый калькулятор</title>
   <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
   <link href="./assets/css/bootstrap-theme.min.css" rel="stylesheet">
   <link href="./assets/css/datepicker.css" rel="stylesheet">
@@ -13,13 +13,13 @@
   <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Visa Calculator</a>
+        <a class="navbar-brand" href="#">Визовый калькулятор</a>
       </div>
     </div>
   </nav>
 
   <div id="main-region" class="container">
-    <p> <h1> Visa Calculator </h1> </p>
+    <p> <h1> Визовый калькулятор </h1> </p>
   </div>
 
   <!--Vendor Includes-->
@@ -46,7 +46,7 @@
 
   <script type="text/template" id="visas-list-item">
     <td>
-      <a href="#visas/<%= id %>" class="js-show">
+      <a href="#visas/<%= id %>" class="js-show-visa">
         <%= name %>
       </a>
     </td>
@@ -54,37 +54,76 @@
     <td><%= endDate %></td>
     <td><%= daysTotal %></td>
     <td>
-      <a href="#visas/<%= id %>" class="btn btn-xs js-show">
-        <i class="glyphicon glyphicon-eye-open"></i>
-      </a>
       <button class="btn btn-danger btn-xs js-delete">
         <i class="glyphicon glyphicon-remove"></i>
       </button>
     </td>
   </script>
 
+  <script type="text/template" id="visas-list-layout">
+    <div id="visas-region"></div>
+
+    <div class="clearfix"></div>
+
+    <div id="visa-entries-region">
+      <!--
+      <br>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title">
+            Ваши визы
+          </div>
+        </div>
+        </div>
+        -->
+    </div>
+  </script>
+  <script type="text/template" id="visa-entries-collection">
+    <br>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title">
+          Ваши въезды в Шенгенскую зону
+        </div>
+      </div>
+
+      <table id="visa-entries-table" class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Название</th>
+            <th>Дата въезда</th>
+            <th>Дата выезда</th>
+            <th>Количество дней</th>
+          </tr>
+        </thead>
+        <tbody> </tbody>
+      </table>
+
+    </div>
+  </script>
+
   <script type="text/template" id="visas-list">
     <div class="panel panel-default">
       <div class="panel-body">
-        You have <strong><%= daysLeft %></strong> days left
+        У вас осталось <strong><%= daysLeft %></strong> дней
         <br/>
-        You are allowed to stay in Schengen till <strong><%= dueDate %></strong>
+        Вам разрешено находиться в Шенгенской зоне до <strong><%= dueDate %></strong>
       </div>
     </div>
 
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="panel-title">
-          Your Visas
+          Ваши визы
         </div>
       </div>
       <table class="table table-hover table-striped">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Days Total</th>
+            <th>Название</th>
+            <th>Начало действия</th>
+            <th>Окончание действия</th>
+            <th>Количество дней</th>
             <th></th>
           </tr>
         </thead>
@@ -93,81 +132,99 @@
     </div>
 
     <div class="pull-left">
-      <a href="#visas/new" class="btn btn-primary js-new-visa">Create Visa</a>
+      <a href="#visas/new" class="btn btn-primary js-new-visa">Добавить визу</a>
     </div>
 
     <div class="pull-right">
       <button class="btn btn-danger js-delete-all">
         <i class="glyphicon glyphicon-remove"></i>
-        Delete All Entries
+        Удалить все записи
       </button>
     </div>
 
   </script>
 
   <script type="text/template" id="visa-entry-form-new">
-    <h1> New Visa Entry </h1>
+    <h1> Добавление въезда в Шенгенскую зону </h1>
     <form role="form">
       <div class="form-group">
-        <label class="control-label" for="visa-entry-name" name="name"> Name: </label>
+        <label class="control-label" for="visa-entry-name" name="name"> Название: </label>
         <input id="visa-entry-name" name="name" type="text" value="<%= name %>" class="form-control"/>
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="visa-entry-startDate" name="startDate"> Start Date: </label>
+        <label class="control-label" for="visa-entry-startDate" name="startDate"> Дата въезда: </label>
         <input id="visa-entry-startDate" name="startDate" type="text" value="<%= startDate %>" class="form-control"/>
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="visa-entry-endDate" name="endDate"> End Date: </label>
+        <label class="control-label" for="visa-entry-endDate" name="endDate"> Дата выезда: </label>
         <input id="visa-entry-endDate" name="endDate" type="text" value="<%= endDate %>" class="form-control"/>
       </div>
 
       <div class="pull-left">
-        <a href="#visas/<%= visa_id %>" class="btn btn-default js-list-visas">Back to Visa</a>
+        <a href="#visas/<%= visa_id %>" class="btn btn-default js-list-visas">Вернуться к информации о визе</a>
       </div>
 
       <div class="pull-right">
         <button class="btn btn-primary js-new-entry-submit">
-          Create Visa Entry
+          Добавить
         </button>
       </div>
     </form>
   </script>
 
   <script type="text/template" id="visa-entry-form-edit">
-    <h1> Edit Visa Entry </h1>
+    <h1> Редактирование въезда в Шенгенскую зону </h1>
     <form role="form">
       <div class="form-group">
-        <label class="control-label" for="visa-entry-name" name="name"> Name: </label>
+        <label class="control-label" for="visa-entry-name" name="name"> Название: </label>
         <input id="visa-entry-name" name="name" type="text" value="<%= name %>" class="form-control"/>
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="visa-entry-startDate" name="startDate"> Start Date: </label>
+        <label class="control-label" for="visa-entry-startDate" name="startDate"> Дата въезда: </label>
         <input id="visa-entry-startDate" name="startDate" type="text" value="<%= startDate %>" class="form-control"/>
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="visa-entry-endDate" name="endDate"> End Date: </label>
+        <label class="control-label" for="visa-entry-endDate" name="endDate"> Дата выезда: </label>
         <input id="visa-entry-endDate" name="endDate" type="text" value="<%= endDate %>" class="form-control"/>
       </div>
 
       <div class="pull-left">
-        <a href="#visas/<%= visa_id %>" class="btn btn-default js-list-visas">Back to Visa</a>
+        <a href="#visas/<%= visa_id %>" class="btn btn-default js-list-visas">Вернуться к информации о визе</a>
       </div>
 
       <div class="pull-right">
         <button class="btn btn-primary js-edit-entry-submit">
-          Save Visa Entry
+          Сохранить даные
         </button>
       </div>
     </form>
   </script>
 
-  <script type="text/template" id="visa-entry-view">
+  <script type="text/template" id="visa-entry-view-main">
     <td>
       <%= name %>
+    </td>
+    <td>
+      <%= startDate %>
+    </td>
+    <td>
+      <%= endDate %>
+    </td>
+    <td>
+      <%= daysTotal %>
+    </td>
+  </script>
+
+
+  <script type="text/template" id="visa-entry-view">
+    <td>
+      <a href="#visa-entries/<%= id %>/edit" class="js-show">
+        <%= name %>
+      </a>
     </td>
     <td>
       <%= startDate %>
@@ -192,13 +249,13 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="panel-title">
-          Visa: <%= name %>
+          Виза: <%= name %>
         </div>
       </div>
       <div class="panel-body">
-        <p> <strong> Start Date: </strong> <%= startDate %> </p>
-        <p> <strong> End Date: </strong> <%= endDate %> </p>
-        <p> <strong> Days Total: </strong> <%= daysTotal %> </p>
+        <p> <strong> Начало действия: </strong> <%= startDate %> </p>
+        <p> <strong> Окончание действия: </strong> <%= endDate %> </p>
+        <p> <strong> Количество дней: </strong> <%= daysTotal %> </p>
       </div>
     </div>
 
@@ -206,16 +263,16 @@
     <div class="panel panel-default hidden" id="visa-entries">
       <div class="panel-heading">
         <div class="panel-title">
-          Your Visits
+          Ваши въезды в Шенгенскую зону
         </div>
       </div>
       <table class="table table-hover table-striped">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Days Total</th>
+            <th>Название</th>
+            <th>Дата въезда</th>
+            <th>Дата выезда</th>
+            <th>Количество дней</th>
             <th></th>
           </tr>
         </thead>
@@ -224,14 +281,14 @@
     </div>
 
     <div class="pull-left">
-      <a href="#" class="btn btn-default js-list-visas">Back</a>
-      <a href="#" class="btn btn-primary js-new-visa-entry">New Visa Entry</a>
+      <a href="#" class="btn btn-default js-list-visas">Назад к списку виз</a>
+      <a href="#" class="btn btn-primary js-new-visa-entry">Добавить въезд </a>
     </div>
 
     <div class="pull-right">
       <a href="#visas/<%= id %>/edit" class="btn btn-primary js-edit">
         <span class="glyphicon glyphicon-pencil"></span>
-        Edit Visa
+        Редактировать
       </a>
     </div>
   </script>
@@ -239,74 +296,84 @@
 
   <script type="text/template" id="missing-visa-view">
     <div class="alert alert-error">
-      This visa does not exist
+      Такой визы не существует
     </div>
     <a href="#visas" class="js-list-visas">Back to My Visas</a>
   </script>
 
   <script type="text/template" id="missing-visas-view">
     <div class="alert alert-error">
-      You have no visas added
+      Вы не добавили информацию о визах. Пожалуйста, создайте визу
     </div>
-    <a href="#visas/new" class="btn btn-primary js-new-visa">Create Visa</a>
+    <a href="#visas/new" class="btn btn-primary js-new-visa">Я хочу добавить визу</a>
   </script>
 
   <!--Edit Visa-->
   <script type="text/template" id="visa-form">
-    <h1> Edit <%= name %> </h1>
+    <h1> Редактирование визы: <%= name %> </h1>
     <form role="form">
       <div class="form-group">
-        <label class="control-label" for="visa-name" name="name"> Name: </label>
+        <label class="control-label" for="visa-name" name="name"> Название: </label>
         <input id="visa-name" name="name" type="text" value="<%= name %>" class="form-control"/>
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="visa-startDate" name="startDate"> Start Date: </label>
+        <label class="control-label" for="visa-startDate" name="startDate"> Начало действия: </label>
         <input id="visa-startDate" name="startDate" type="text" value="<%= startDate %>" class="form-control"/>
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="visa-endDate" name="endDate"> End Date: </label>
+        <label class="control-label" for="visa-endDate" name="endDate"> Окончание действия: </label>
         <input id="visa-endDate" name="endDate" type="text" value="<%= endDate %>" class="form-control"/>
       </div>
 
+      <div class="form-group">
+        <label class="control-label" for="visa-daysTotal" name="daysTotal"> Количество дней: </label>
+        <input id="visa-daysTotal" name="daysTotal" type="text" value="<%= daysTotal %>" class="form-control"/>
+      </div>
+
       <div class="pull-left">
-        <a href="#visas/<%= id %>" class="btn btn-default js-show-visa">Back to Visa</a>
+        <a href="#visas/<%= id %>" class="btn btn-default js-show-visa">Назад к информаии о визе</a>
       </div>
 
       <div class="pull-right">
         <button class="btn btn-primary js-submit">
-          Save
+          Сохранить
         </button>
       </div>
     </form>
   </script>
 
   <script type="text/template" id="visa-form-new">
-    <h1> New Visa </h1>
+    <h1> Добавление визы </h1>
     <form role="form">
       <div class="form-group">
-        <label class="control-label" for="visa-name" name="name"> Name: </label>
+        <label class="control-label" for="visa-name" name="name"> Название: </label>
         <input id="visa-name" name="name" type="text" value="<%= name %>" class="form-control"/>
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="visa-startDate" name="startDate"> Start Date: </label>
+        <label class="control-label" for="visa-startDate" name="startDate"> Начало действия: </label>
         <input id="visa-startDate" name="startDate" type="text" value="<%= startDate %>" class="form-control"/>
       </div>
 
       <div class="form-group">
-        <label class="control-label" for="visa-endDate" name="endDate"> End Date: </label>
+        <label class="control-label" for="visa-endDate" name="endDate"> Окончание действия: </label>
         <input id="visa-endDate" name="endDate" type="text" value="<%= endDate %>" class="form-control"/>
       </div>
 
+      <div class="form-group">
+        <label class="control-label" for="visa-daysTotal" name="daysTotal"> Количество дней: </label>
+        <input id="visa-daysTotal" name="daysTotal" type="text" value="<%= daysTotal %>" class="form-control"/>
+      </div>
+
       <div class="pull-left">
-        <a href="#visas" class="btn btn-default js-list-visas">Back to Visas List</a>
+        <a href="#visas" class="btn btn-default js-list-visas">Назад к списку виз</a>
       </div>
 
       <div class="pull-right">
         <button class="btn btn-primary js-submit">
-          Create Visa
+          Добавить визу
         </button>
       </div>
     </form>

@@ -53,5 +53,37 @@ vc.module("VisasApp.List", function(List, vc, Backbone, Marionette, $, _){
   List.MissingVisas = Marionette.ItemView.extend({
     template: "#missing-visas-view"
   });
+
+  List.VisasListLayout = Marionette.Layout.extend({
+    template: "#visas-list-layout",
+
+    regions: {
+      visas: "#visas-region",
+      entries: "#visa-entries-region"
+    }
+  });
+
+  List.VisaEntry = Marionette.ItemView.extend({
+    template: "#visa-entry-view-main",
+    tagName: "tr",
+
+    events: {
+      "click .js-delete": "deleteClicked"
+    },
+
+    deleteClicked: function(e) {
+      e.preventDefault();
+      this.trigger("visaEntry:delete", this.model);
+    }
+  });
+
+  List.VisaEntries = Marionette.CompositeView.extend({
+    template: "#visa-entries-collection",
+    tagName: "div",
+    className: "",
+    itemView: List.VisaEntry,
+    itemViewContainer: "#visa-entries-table tbody"
+  });
+
 });
 
